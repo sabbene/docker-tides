@@ -9,10 +9,10 @@ RUN yum -y install nginx
 
 RUN curl -L http://cpanmin.us | perl - App::cpanminus
 
-RUN cpanm JSON
-RUN cpanm YAML
-RUN cpanm WWW::Curl::Easy
-RUN cpanm Data::Dump
+RUN cpanm --verbose --no-interactive JSON
+RUN cpanm --verbose --no-interactive YAML
+RUN cpanm --verbose --no-interactive WWW::Curl::Easy
+RUN cpanm --verbose --no-interactive Data::Dump
 
 EXPOSE 80
 EXPOSE 443
