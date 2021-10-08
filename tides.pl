@@ -4,7 +4,8 @@ use strict;
 use warnings;
 
 use JSON;
-use WWW::Curl::Easy;
+#use WWW::Curl::Easy;
+use Mojo::UserAgent;
 use Data::Dump qw(pp);
 
 my $json = JSON->new->allow_nonref;
@@ -43,25 +44,30 @@ my %forcast_locations = (
 
 sub curl_get {
     my $url = shift;
-    my $response_body;
+    my $ua  = Mojo::UserAgent->new;
 
-    my $curl = WWW::Curl::Easy->new();
+    my $res = $ua->get($url)->result;
+    if    ($res->is_success)  { return $json->decode($res->body) }
+    elsif ($res->is_error)    { return 'nil', $res->code . ' ' . $res->message }
+    #my $response_body;
 
-    $curl->setopt(CURLOPT_HEADER,0);
-    $curl->setopt(CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64; rv:30.0) Gecko/20100101 Firefox/30.0');
-    $curl->setopt(CURLOPT_WRITEDATA,\$response_body);
+    #my $curl = WWW::Curl::Easy->new();
 
-    $curl->setopt(CURLOPT_URL, $url);
+    #$curl->setopt(CURLOPT_HEADER,0);
+    #$curl->setopt(CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64; rv:30.0) Gecko/20100101 Firefox/30.0');
+    #$curl->setopt(CURLOPT_WRITEDATA,\$response_body);
 
-    my $retcode       = $curl->perform;
-    my $response_code = $curl->getinfo(CURLINFO_HTTP_CODE);
+    #$curl->setopt(CURLOPT_URL, $url);
 
-    if ( $response_code =~ /^2\d+/smx ) {
-        return $json->decode($response_body), 'nil';
-    }
-    else {
-        return 'nil', $retcode.' '.$curl->strerror($retcode).' '.$curl->errbuf;
-    }
+    #my $retcode       = $curl->perform;
+    #my $response_code = $curl->getinfo(CURLINFO_HTTP_CODE);
+
+    #if ( $response_code =~ /^2\d+/smx ) {
+    #    return $json->decode($response_body), 'nil';
+    #}
+    #else {
+    #    return 'nil', $retcode.' '.$curl->strerror($retcode).' '.$curl->errbuf;
+    #}
 }
 
 sub get_urls {
