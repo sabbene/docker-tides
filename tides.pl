@@ -302,6 +302,9 @@ print '    <th rowspan="'.scalar @{$forcast_locations{$loc}->{tide_forcast}}.'">
     <th>$tide_data->{t}</th>
     <td>$tide_data->{type}: $tide_data->{v} feet</td>
 </tr>
+<tr>
+    <td colspan="4"></th>
+</tr>
 EOF
     }
 print <<EOF;
