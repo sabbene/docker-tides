@@ -2,7 +2,7 @@ FROM perl:latest
 
 COPY . /app
 
-RUN apt update && apt -y upgrade && apy -y dist-upgrade
+RUN apt update && apt -y upgrade && apt -y dist-upgrade
 
 RUN cpanm Mojo::UserAgent
 RUN cpanm JSON
