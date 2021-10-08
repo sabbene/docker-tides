@@ -1,5 +1,7 @@
 FROM perl:latest
 
+RUN apt-get update && apt-get install -y make gcc
+
 COPY . /app
 
 RUN cpanm WWW::Curl::Easy
