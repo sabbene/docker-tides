@@ -1,10 +1,10 @@
 FROM perl:latest
 
-RUN apt-get update && apt-get install -y make gcc libcurl
-
 COPY . /app
 
-RUN cpanm WWW::Curl::Easy
+RUN apt update && apt -y upgrade
+
+RUN cpanm Mojo::UserAgent
 RUN cpanm JSON
 RUN cpanm YAML
 RUN cpanm Data::Dump
