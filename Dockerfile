@@ -1,6 +1,6 @@
 FROM perl:latest
 
-RUN apt-get update && apt-get install -y make gcc
+RUN apt-get update && apt-get install -y make gcc libcurl
 
 COPY . /app
 
