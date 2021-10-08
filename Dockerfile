@@ -1,15 +1,18 @@
 FROM perl:latest
 
-COPY . /app
 
-RUN apt update && apt -y upgrade && apt -y dist-upgrade
+RUN apt update && apt -y upgrade && apt -y dist-upgrade && apt -y install nginx
 
+RUN useradd nginx
 RUN cpanm Mojo::UserAgent
 RUN cpanm JSON
 RUN cpanm YAML
 RUN cpanm Data::Dump
+RUN cpanm IO::Socket::SSL
+
+COPY . /app
 
 EXPOSE 80
 EXPOSE 443
 
-CMD sleep 100
+CMD /app/start.sh

@@ -14,7 +14,7 @@ my %forcast_locations = (
     santa_cruz => {
         name      => 'Santa Cruz',
         base_url  => 'https://api.weather.gov/points/36.9561,-122.012',
-		tide_forcast_url  => 'https://tidesandcurrents.noaa.gov/api/datagetter?station=9413745&range=24&product=predictions&datum=mllw&units=english&time_zone=lst_ldt&format=json&interval=hilo',
+        tide_forcast_url  => 'https://tidesandcurrents.noaa.gov/api/datagetter?station=9413745&range=24&product=predictions&datum=mllw&units=english&time_zone=lst_ldt&format=json&interval=hilo',
         alerts_url => 'https://api.weather.gov//alerts?active=1&point=36.9561,-122.012',
         noaa_url => 'http://marine.weather.gov/MapClick.php?lat=36.9561&lon=-122.012',
     },
@@ -46,9 +46,14 @@ sub curl_get {
     my $url = shift;
     my $ua  = Mojo::UserAgent->new;
 
-    my $res = $ua->get($url)->result;
-    if    ($res->is_success)  { return $json->decode($res->body) }
-    elsif ($res->is_error)    { return 'nil', $res->code . ' ' . $res->message }
+    my $res = $ua->max_redirects(5)
+                 ->get($url)->result;
+    if ( $res->is_success ) {
+        return $json->decode($res->body), 'nil';
+    }
+    elsif ( $res->is_error ) {
+        return 'nil', $res->code . ' ' . $res->message;
+    }
     #my $response_body;
 
     #my $curl = WWW::Curl::Easy->new();
@@ -151,7 +156,7 @@ sub get_current {
         $forcast_locations{$loc}->{current}->{detailed} = sprintf "Now: %s %.0f and %s. Low around %.0f high of %.0f. %s wind %.0f mph, with gusts as high as %.0f mph. %.0f%s chance of rain.",
             $forcast_locations{$loc}->{current}->{weather},
             $forcast_locations{$loc}->{current}->{temperature},
-            $forcast_locations{$loc}->{forcast}->{temperatureTrend},
+            $forcast_locations{$loc}->{forcast}->{temperatureTrend} || 'steady',
             $forcast_locations{$loc}->{current}->{minTemperature},
             $forcast_locations{$loc}->{current}->{maxTemperature},
             $forcast_locations{$loc}->{current}->{windDirection},
