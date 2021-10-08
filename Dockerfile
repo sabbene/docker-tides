@@ -2,7 +2,6 @@ FROM perl:latest
 
 COPY . /app
 
-RUN cpanm WWW::Curl
 RUN cpanm WWW::Curl::Easy
 RUN cpanm JSON
 RUN cpanm YAML
