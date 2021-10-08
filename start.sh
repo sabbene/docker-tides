@@ -6,6 +6,9 @@ prod_file='/app/index.html'
 
 /usr/sbin/nginx -c /app/nginx.conf
 
+echo LOADING > "${prod_file}"
+echo $(date +"%Y-%m-%dT%H:%M:%S%z") >> "${prod_file}"
+
 while true;
 do
     /app/tides.pl > "${tmp_file}";
