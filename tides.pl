@@ -315,14 +315,11 @@ EOF
     }
 print <<EOF;
 </tr>
-EOF
-}
-
-print <<EOF;
 <tr>
     <td colspan="4"></th>
 </tr>
 EOF
+}
 
 print '</table>'."\n";
 
