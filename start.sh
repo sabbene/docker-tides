@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-tmp_file='/app/index.html.tmp'
-prod_file='/app/index.html'
+tmp_file='/app/tides.html.tmp'
+prod_file='/app/tides.html'
 
 /usr/sbin/nginx -c /app/nginx.conf
 
